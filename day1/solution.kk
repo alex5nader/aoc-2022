@@ -1,8 +1,8 @@
 import utils
 
 
-fun max-n ( list : list<int>, n : int ) : total list<int>
-  fun recurse ( depth : int, acc : list<int>, new : int ) : total list<int>
+fun max-n ( list : list<int>, n : int ) : list<int>
+  fun recurse ( depth : int, acc : list<int>, new : int ) : list<int>
     if depth == n then Nil
     else match acc
       Nil -> single(new)
@@ -15,7 +15,7 @@ fun max-n ( list : list<int>, n : int ) : total list<int>
   list.foldl(Nil, fn(acc, x) recurse(0, acc, x))
 
 
-fun max ( list : list<int> ) : total int
+fun max ( list : list<int> ) : int
   list.max-n(1).sum
 
 

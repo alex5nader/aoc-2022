@@ -6,13 +6,13 @@ type outcome
   Lose
   Draw
 
-fun score ( outcome : outcome ) : total int
+fun score ( outcome : outcome ) : int
   match outcome
     Win -> 6
     Lose -> 0
     Draw -> 3
 
-fun to-outcome ( text : string ) : total maybe<outcome>
+fun to-outcome ( text : string ) : maybe<outcome>
   match text
     "X" -> Just(Lose)
     "Y" -> Just(Draw)
@@ -25,13 +25,13 @@ type play
   Paper
   Scissors
 
-fun score ( play : play ) : total int
+fun score ( play : play ) : int
   match play
     Rock -> 1
     Paper -> 2
     Scissors -> 3
 
-fun to-play ( text : string ) : total maybe<play>
+fun to-play ( text : string ) : maybe<play>
   match text
     "A" -> Just(Rock)
     "X" -> Just(Rock)
@@ -42,7 +42,7 @@ fun to-play ( text : string ) : total maybe<play>
     _ -> Nothing
 
 
-fun outcome-against ( your-play : play, opponent-play : play ) : total outcome
+fun outcome-against ( your-play : play, opponent-play : play ) : outcome
   match (your-play, opponent-play)
     (Rock, Paper)        -> Lose
     (Paper, Scissors)    -> Lose
@@ -55,7 +55,7 @@ fun outcome-against ( your-play : play, opponent-play : play ) : total outcome
     (Rock, Scissors)     -> Win
     _ -> Win // unreachable
 
-fun cause-outcome ( opponent-play : play, outcome : outcome ) : total play
+fun cause-outcome ( opponent-play : play, outcome : outcome ) : play
   match (opponent-play, outcome)
     (Paper, Lose)    -> Rock
     (Scissors, Lose) -> Paper
@@ -69,13 +69,13 @@ fun cause-outcome ( opponent-play : play, outcome : outcome ) : total play
     _ -> Rock // unreachable
 
 
-fun to-tuple2( list : list<a> ) : total maybe<(a, a)>
+fun to-tuple2( list : list<a> ) : maybe<(a, a)>
   match list
     Cons(a, Cons(b, _)) -> Just((a, b))
     _ -> Nothing
 
 
-fun solution( input : string ) : total (int, int)
+fun solution( input : string ) : (int, int)
   val rounds = input.lines.filter-map fn(s)
     s.split(" ").to-tuple2.and-then fn ((abc, xyz))
       abc.to-play.map(fn(abc-play) (abc-play, xyz))

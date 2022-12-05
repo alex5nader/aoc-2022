@@ -22,7 +22,7 @@ fun priority ( char : char ) : int
   else
     -999999999 // unreachable
 
-fun solution( input : string ) : total (int, int)
+fun solution( input : string ) : (int, int)
   val half-dupes =
     with line <- input.lines.filter-map
     val (left, right) = line.list.halve

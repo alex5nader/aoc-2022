@@ -9,22 +9,22 @@ fun parse-pair ( s : string, separator : string, parser : (string) -> e maybe<a>
 
 struct range( start : int, end : int )
 
-fun to-range( (start, end) : (int, int) ) : total range
+fun to-range( (start, end) : (int, int) ) : range
   Range(start, end)
 
-fun parse-range( s : string ) : total maybe<range>
+fun parse-range( s : string ) : maybe<range>
   s.parse-pair("-", fn(part) part.parse-int()).map(to-range)
 
-fun fully-contains( self : range, other : range ) : total bool
+fun fully-contains( self : range, other : range ) : bool
   other.start >= self.start && other.end <= self.end
 
-fun overlaps( self : range, other : range) : total bool
+fun overlaps( self : range, other : range) : bool
   self.start <= other.start && other.start <= self.end || // other starts inside self
     self.start <= other.end && other.end <= self.end || // other ends inside self
     other.fully-contains(self)
 
 
-fun solution( input : string ) : total (int, int)
+fun solution( input : string ) : (int, int)
   val pairs : list<(range, range)> = input.lines.filter-map fn(line)
     line.parse-pair(",", parse-range)
   
