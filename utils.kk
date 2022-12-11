@@ -22,8 +22,13 @@ fun read-input( day : int ) : _ string
   val path = cwd() / ("day" ++ day.show) / "input"
   path.read-text-file()
 
-fun count( list : list<a>, pred : a -> bool ) : int
+fun count( list : list<a>, pred : a -> e bool ) : e int
   list.filter(pred).length
+
+fun cartesian-product ( list-a : list<a>, list-b : list<b> ) : list<(a, b)>
+  list-a.flatmap fn(a) list-b.map fn(b) (a, b)
+fun cartesian-product-with( list-a : list<a>, list-b : list<b>, f : (a, b) -> e c) : e list<c>
+  list-a.flatmap fn(a) list-b.map fn(b) f(a, b)
 
 fun and-then( maybe : maybe<a>, f : (a) -> e maybe<b> ) : e maybe<b>
   match maybe
@@ -55,9 +60,13 @@ fun tap( list : list<a>, f : (a) -> e () ) : e list<a>
 
 fun minmax( a : int, b : int ) : (int, int)
   if a > b then (a, b) else (b, a)
+fun max-by( a1 : a, a2 : a, f : a -> int) : a
+  if f(a1) > f(a2) then a1 else a2
 
 fun min( list : list<int> ) : maybe<int>
   list.foldl(Nothing) fn(acc : maybe<int>, next) acc.map(fn(m) min(m, next)) || Just(next)
+fun max-by( list : list<a>, f : a -> int ) : maybe<a>
+  list.foldl(Nothing) fn(acc : maybe<_>, next) acc.map(fn(m) max-by(m, next, f)) || Just(next)
 
 fun split2( list : list<a>, a-idx : int, b-idx : int ) : maybe<(list<a>, a, list<a>, a, list<a>)>
   match list.split(a-idx)
