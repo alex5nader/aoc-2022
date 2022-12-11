@@ -84,3 +84,25 @@ fun show-tuple5(
   show-e : (e) -> string
 ) : string
   a.show-a ++ "," ++ b.show-b ++ "," ++ c.show-c ++ "," ++ d.show-d ++ "," ++ e.show-e
+
+fun repeat( value : a, count : int ) : list<a>
+  if count == 0 then Nil
+  else
+    Cons(value, repeat(value, unsafe-decreasing(count - 1)))
+
+fun scanl( list : list<a>, init : b, f : (b, a) -> b ) : list<b>
+  val tail = match list
+    Nil -> Nil
+    Cons(head, tail) -> tail.scanl(f(init, head), f)
+  
+  Cons(init, tail)
+
+fun scanl1( list : list<a>, f : (a, a) -> a ) : list<a>
+  match list
+    Nil -> Nil
+    Cons(head, tail) -> tail.scanl(head, f)
+
+fun scanl1( list : list<a>, init : a -> b, f : (b, a) -> b ) : list<b>
+  match list
+    Nil -> Nil
+    Cons(head, tail) -> tail.scanl(init(head), f)
