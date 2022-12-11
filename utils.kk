@@ -10,7 +10,7 @@ fun run( day : int, solution : (string) -> (int, int) ) : _ ()
   println("Part 1: " ++ part1.show)
   println("Part 2: " ++ part2.show)
 
-fun run( day : int, solution : (string) -> (string, string) ) : _ ()
+fun run( day : int, solution : (string) -> exn (string, string) ) : _ ()
   val input = read-input(day)
 
   val (part1, part2) = solution(input)
@@ -55,6 +55,9 @@ fun tap( list : list<a>, f : (a) -> e () ) : e list<a>
 
 fun minmax( a : int, b : int ) : (int, int)
   if a > b then (a, b) else (b, a)
+
+fun min( list : list<int> ) : maybe<int>
+  list.foldl(Nothing) fn(acc : maybe<int>, next) acc.map(fn(m) min(m, next)) || Just(next)
 
 fun split2( list : list<a>, a-idx : int, b-idx : int ) : maybe<(list<a>, a, list<a>, a, list<a>)>
   match list.split(a-idx)
