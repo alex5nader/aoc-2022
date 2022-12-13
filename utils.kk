@@ -90,7 +90,7 @@ fun repeat( value : a, count : int ) : list<a>
   else
     Cons(value, repeat(value, unsafe-decreasing(count - 1)))
 
-fun scanl( list : list<a>, init : b, f : (b, a) -> b ) : list<b>
+fun scanl( list : list<a>, init : b, f : (b, a) -> e b ) : e list<b>
   val tail = match list
     Nil -> Nil
     Cons(head, tail) -> tail.scanl(f(init, head), f)
@@ -106,3 +106,12 @@ fun scanl1( list : list<a>, init : a -> b, f : (b, a) -> b ) : list<b>
   match list
     Nil -> Nil
     Cons(head, tail) -> tail.scanl(init(head), f)
+
+fun gcd( a : int, b : int ) : int
+  if b == 0 then a else gcd(b, unsafe-decreasing(a % b))
+
+fun lcm( xs : list<int> ) : int
+  xs.foldl(1) fn(lcm, x) lcm / lcm.gcd(x) * x
+
+fun divides( divisor : int, dividend : int ) : bool
+  dividend % divisor == 0
